@@ -1,4 +1,5 @@
-#pragma once
+// Ref: https://github.com/thegroove/esphome-custom-component-examples.git
+
 #pragma once
 
 #include <M5Unified.h>
