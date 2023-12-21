@@ -15,7 +15,7 @@ void BoardM5CoreS3::loop() {
 }
 
 void BoardM5CoreS3::dump_config(){
-    ESP_LOGCONFIG(TAG, "board_m5cores3");
+    ESP_LOGCONFIG(TAG, "board_m5cores3 asasd");
 }
 
 
