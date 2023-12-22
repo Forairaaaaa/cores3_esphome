@@ -36,17 +36,17 @@ esphome:
   libraries:
     - m5stack/M5GFX@^0.1.11
     - m5stack/M5Unified@^0.1.11
-  # on_boot:
-  #     priority: 600
-  #     then: 
-  #       - script.execute: draw_display
-  #       - delay: 30s
-  #       - if:
-  #           condition:
-  #             lambda: return id(init_in_progress);
-  #           then:
-  #             - lambda: id(init_in_progress) = false;
-  #             - script.execute: draw_display
+  on_boot:
+      priority: 600
+      then: 
+        - script.execute: draw_display
+        - delay: 30s
+        - if:
+            condition:
+              lambda: return id(init_in_progress);
+            then:
+              - lambda: id(init_in_progress) = false;
+              - script.execute: draw_display
 
 esp32:
   board: esp32-s3-devkitc-1
@@ -64,7 +64,7 @@ external_components:
   - source:
       type: git
       url: https://github.com/Forairaaaaa/cores3_esphome
-      ref: ver2
+      ref: ver4
     components: [ board_m5cores3 ]
 
 board_m5cores3:
@@ -76,10 +76,10 @@ logger:
 # Enable Home Assistant API
 api:
   encryption:
-    key: "8IEHQHpFcB9A6g8HpVE1Yb4gGwrKRD0HcuO4FkRdsKc="
+    key: "ZzXGSFpPyCaeL2dSbdTAYQT8KyVIc1lDr6Ty3A1mzN4="
 
 ota:
-  password: "1ee618fc70816cec2027b50928bbe12d"
+  password: "f0c70a51f8f1ce2e81aa16f28e44517a"
 
 wifi:
   ssid: !secret wifi_ssid
@@ -88,10 +88,10 @@ wifi:
   # Enable fallback hotspot (captive portal) in case wifi connection fails
   ap:
     ssid: "M5Cores3 Fallback Hotspot"
-    password: "QbejEyIJvtIh"
+    password: "Y0owxrmIgA7Z"
 
 captive_portal:
-
+    
 
 # 
 # Globals
