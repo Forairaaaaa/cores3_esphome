@@ -7,7 +7,7 @@ namespace board_m5cores3 {
 static const char *TAG = "empty_component.component";
 
 void BoardM5CoreS3::setup() {
-
+    M5.begin();
 }
 
 void BoardM5CoreS3::loop() {
