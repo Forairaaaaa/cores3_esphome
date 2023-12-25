@@ -40,7 +40,7 @@ esphome:
       priority: 600
       then: 
         - script.execute: draw_display
-        - delay: 30s
+        - delay: 60s
         - if:
             condition:
               lambda: return id(init_in_progress);
@@ -244,6 +244,7 @@ display:
     id: m5cores3_lcd
     data_rate: 40MHz
     update_interval: never
+    invert_colors: false
     pages:
       - id: idle_page
         lambda: |-
