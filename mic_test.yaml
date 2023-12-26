@@ -28,6 +28,12 @@ external_components:
 board_m5cores3:
   id: board_m5cores3_1
 
+
+
+
+
+
+
 # Enable logging
 logger:
 
@@ -50,6 +56,9 @@ wifi:
 
 captive_portal:
     
+
+
+
 
 
 
@@ -76,6 +85,44 @@ display:
 
 
 
+# 
+# Mic
+# 
+i2s_audio:
+  i2s_lrclk_pin: GPIO33
+  i2s_bclk_pin: GPIO34
+  id: m5cores3_i2s
+
+microphone:
+  - platform: i2s_audio
+    adc_type: external
+    i2s_din_pin: GPIO14
+    pdm: false
+    i2s_audio_id: m5cores3_i2s
+    id: m5cores3_mic
+
+# 
+# Speaker
+# 
+speaker:
+  - platform: i2s_audio
+    dac_type: external
+    i2s_dout_pin: GPIO13
+    mode: mono
+    i2s_audio_id: m5cores3_i2s
+    id: m5cores3_spk
+
+
+
+
+
+voice_assistant:
+  microphone: m5cores3_mic
+  speaker: m5cores3_spk
+
+
+
+
 switch:
 
 # Lcd Backlight 
@@ -90,24 +137,13 @@ switch:
     - lambda: |-
         M5.Display.setBrightness(0);
 
-
-
-
-
-# 
-# Mic
-# 
-i2s_audio:
-  i2s_lrclk_pin: GPIO33
-  i2s_bclk_pin: GPIO34
-  id: m5cores3_i2s
-
-microphone:
-  - platform: i2s_audio
-    adc_type: external
-    i2s_din_pin: GPIO13
-    pdm: false
-    i2s_audio_id: m5cores3_i2s
-    id: m5cores3_mic
-
+# VA test 
+- platform: template
+  name: "VA shit"
+  id: switch_va
+  turn_on_action:
+    - voice_assistant.start:
+          silence_detection: true
+  turn_off_action:
+    - voice_assistant.stop:
 
