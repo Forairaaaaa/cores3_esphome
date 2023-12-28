@@ -46,11 +46,11 @@ external_components:
       type: git
       url: https://github.com/Forairaaaaa/cores3_esphome
       # ref: ver4
-    components: [ board_m5cores3 ]
+    components: [ board_m5cores3, esp_adf ]
     refresh: 0s
 
 board_m5cores3:
-
+esp_adf:
 
 
 

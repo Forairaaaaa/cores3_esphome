@@ -1,6 +1,6 @@
 #pragma once
 
-#ifdef USE_ESP_IDF
+// #ifdef USE_ESP_IDF
 
 #include "esphome/core/component.h"
 #include "esphome/core/helpers.h"
@@ -55,4 +55,4 @@ class ESPADF : public Component {
 }  // namespace esp_adf
 }  // namespace esphome
 
-#endif  // USE_ESP_IDF
+// #endif  // USE_ESP_IDF

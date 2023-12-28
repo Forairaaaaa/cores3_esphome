@@ -48,6 +48,17 @@ def final_validate_usable_board(platform: str):
     )
 
 
+# CONFIG_SCHEMA = cv.All(
+#     cv.Schema(
+#         {
+#             cv.GenerateID(): cv.declare_id(ESPADF),
+#             cv.Optional(CONF_BOARD): cv.string_strict,
+#         }
+#     ),
+#     _default_board,
+#     cv.only_with_esp_idf,
+# )
+
 CONFIG_SCHEMA = cv.All(
     cv.Schema(
         {
@@ -55,8 +66,7 @@ CONFIG_SCHEMA = cv.All(
             cv.Optional(CONF_BOARD): cv.string_strict,
         }
     ),
-    _default_board,
-    cv.only_with_esp_idf,
+    _default_board
 )
 
 

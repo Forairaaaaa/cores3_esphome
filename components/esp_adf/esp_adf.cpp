@@ -1,7 +1,7 @@
 #include "esp_adf.h"
 #include "esphome/core/defines.h"
 
-#ifdef USE_ESP_IDF
+// #ifdef USE_ESP_IDF
 
 #ifdef USE_ESP_ADF_BOARD
 #include <board.h>
@@ -27,4 +27,4 @@ float ESPADF::get_setup_priority() const { return setup_priority::HARDWARE; }
 }  // namespace esp_adf
 }  // namespace esphome
 
-#endif  // USE_ESP_IDF
+// #endif  // USE_ESP_IDF
