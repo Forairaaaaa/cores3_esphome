@@ -6,10 +6,16 @@ esphome:
     - m5stack/M5Unified@^0.1.11
 
 esp32:
-  board: m5stack-cores3
-  flash_size: 16MB
+  board: esp32-s3-devkitc-1
+  # flash_size: 16MB
   framework:
     type: arduino
+
+
+# psram:
+#   mode: octal
+#   speed: 80MHz
+
 
 # Enable logging
 logger:
@@ -35,21 +41,15 @@ captive_portal:
     
 
 
+# external_components:
+#   - source:
+#       type: git
+#       url: https://github.com/Forairaaaaa/cores3_esphome
+#       # ref: ver4
+#     components: [ board_m5cores3 ]
+#     refresh: 0s
 
-
-psram:
-  mode: octal
-  speed: 80MHz
-
-external_components:
-  - source:
-      type: git
-      url: https://github.com/Forairaaaaa/cores3_esphome
-      # ref: ver4
-    components: [ board_m5cores3 ]
-    refresh: 0s
-
-board_m5cores3:
+# board_m5cores3:
 
 
 

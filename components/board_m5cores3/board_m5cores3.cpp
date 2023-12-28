@@ -4,10 +4,10 @@
 namespace esphome {
 namespace board_m5cores3 {
 
-static const char *TAG = "empty_component.component";
+static const char *TAG = "board m5cores3";
 
 void BoardM5CoreS3::setup() {
-    ESP_LOGI(TAG, "board m5cores3 setup");
+    ESP_LOGI(TAG, "setup");
     M5.begin();
     M5.Display.fillScreen(TFT_BLUE);
     M5.Mic.end();
@@ -19,7 +19,7 @@ void BoardM5CoreS3::loop() {
 }
 
 void BoardM5CoreS3::dump_config(){
-    ESP_LOGCONFIG(TAG, "board_m5cores3 asasd");
+    ESP_LOGCONFIG(TAG, "config");
 }
 
 
