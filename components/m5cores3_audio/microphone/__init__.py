@@ -15,7 +15,8 @@ from .. import (
 )
 
 CODEOWNERS = ["@jesserockz"]
-DEPENDENCIES = ["i2s_audio"]
+# DEPENDENCIES = ["i2s_audio"]
+DEPENDENCIES = ["m5cores3_audio"]
 
 CONF_ADC_PIN = "adc_pin"
 CONF_ADC_TYPE = "adc_type"
@@ -95,16 +96,16 @@ async def to_code(config):
 
     await cg.register_parented(var, config[CONF_I2S_AUDIO_ID])
 
-    if config[CONF_ADC_TYPE] == "internal":
-        variant = esp32.get_esp32_variant()
-        pin_num = config[CONF_ADC_PIN][CONF_NUMBER]
-        channel = ESP32_VARIANT_ADC1_PIN_TO_CHANNEL[variant][pin_num]
-        cg.add(var.set_adc_channel(channel))
-    else:
-        cg.add(var.set_din_pin(config[CONF_I2S_DIN_PIN]))
-        cg.add(var.set_pdm(config[CONF_PDM]))
+    # if config[CONF_ADC_TYPE] == "internal":
+    #     variant = esp32.get_esp32_variant()
+    #     pin_num = config[CONF_ADC_PIN][CONF_NUMBER]
+    #     channel = ESP32_VARIANT_ADC1_PIN_TO_CHANNEL[variant][pin_num]
+    #     cg.add(var.set_adc_channel(channel))
+    # else:
+    #     cg.add(var.set_din_pin(config[CONF_I2S_DIN_PIN]))
+    #     cg.add(var.set_pdm(config[CONF_PDM]))
 
-    cg.add(var.set_channel(config[CONF_CHANNEL]))
-    cg.add(var.set_bits_per_sample(config[CONF_BITS_PER_SAMPLE]))
+    # cg.add(var.set_channel(config[CONF_CHANNEL]))
+    # cg.add(var.set_bits_per_sample(config[CONF_BITS_PER_SAMPLE]))
 
     await microphone.register_microphone(var, config)

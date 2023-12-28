@@ -1,6 +1,6 @@
 #include "i2s_audio_microphone.h"
 
-#ifdef USE_ESP32
+// #ifdef USE_ESP32
 
 #include <driver/i2s.h>
 
@@ -8,30 +8,35 @@
 #include "esphome/core/log.h"
 
 namespace esphome {
-namespace i2s_audio {
+namespace m5cores3_audio {
 
 static const size_t BUFFER_SIZE = 512;
 
-static const char *const TAG = "i2s_audio.microphone";
+static const char *const TAG = "m5cores3_audio.microphone";
 
 void I2SAudioMicrophone::setup() {
-  ESP_LOGCONFIG(TAG, "Setting up I2S Audio Microphone...");
-#if SOC_I2S_SUPPORTS_ADC
-  if (this->adc_) {
-    if (this->parent_->get_port() != I2S_NUM_0) {
-      ESP_LOGE(TAG, "Internal ADC only works on I2S0!");
-      this->mark_failed();
-      return;
-    }
-  } else
-#endif
-      if (this->pdm_) {
-    if (this->parent_->get_port() != I2S_NUM_0) {
-      ESP_LOGE(TAG, "PDM only works on I2S0!");
-      this->mark_failed();
-      return;
-    }
-  }
+//   ESP_LOGCONFIG(TAG, "Setting up I2S Audio Microphone...");
+// #if SOC_I2S_SUPPORTS_ADC
+//   if (this->adc_) {
+//     if (this->parent_->get_port() != I2S_NUM_0) {
+//       ESP_LOGE(TAG, "Internal ADC only works on I2S0!");
+//       this->mark_failed();
+//       return;
+//     }
+//   } else
+// #endif
+//       if (this->pdm_) {
+//     if (this->parent_->get_port() != I2S_NUM_0) {
+//       ESP_LOGE(TAG, "PDM only works on I2S0!");
+//       this->mark_failed();
+//       return;
+//     }
+//   }
+
+
+
+  ESP_LOGI(TAG, "setup");
+
 }
 
 void I2SAudioMicrophone::start() {
@@ -163,4 +168,4 @@ void I2SAudioMicrophone::loop() {
 }  // namespace i2s_audio
 }  // namespace esphome
 
-#endif  // USE_ESP32
+// #endif  // USE_ESP32

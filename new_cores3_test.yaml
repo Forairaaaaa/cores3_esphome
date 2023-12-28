@@ -55,6 +55,19 @@ external_components:
 
 board_m5cores3:
 m5cores3_audio:
+  id: m5cores3_audio_1
+
+
+
+
+
+microphone:
+  - platform: m5cores3_audio
+    m5cores3_audio_id: m5cores3_audio_1
+    id: m5cores3_mic
+    adc_type: external
+    i2s_din_pin: 6
+    pdm: false
 
 
 
