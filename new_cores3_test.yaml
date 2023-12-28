@@ -1,0 +1,45 @@
+esphome:
+  name: m5cores3
+  friendly_name: M5CoreS3
+  libraries:
+    - m5stack/M5GFX@^0.1.11
+    - m5stack/M5Unified@^0.1.11
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "dce6ZIlW2LEpwjxuJs+RPUuwe1cMk47zGtJNBgi1+p0="
+
+ota:
+  password: "d337432fa1a3a1155e5563aa3e254551"
+
+wifi:
+  ssid: "GL-AXT1800-06a"
+  password: "m5stack001"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "M5Cores3 Fallback Hotspot"
+    password: "bGycp2AoOkrN"
+
+captive_portal:
+    
+
+
+external_components:
+  - source:
+      type: git
+      url: https://github.com/Forairaaaaa/cores3_esphome
+      ref: ver4
+    components: [ board_m5cores3 ]
+
+board_m5cores3:
+
