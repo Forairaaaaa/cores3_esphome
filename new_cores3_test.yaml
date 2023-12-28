@@ -6,7 +6,7 @@ esphome:
     - m5stack/M5Unified@^0.1.11
 
 esp32:
-  board: m5stack-cores3
+  board: esp32-s3-devkitc-1
   flash_size: 16MB
   framework:
     type: arduino
