@@ -40,6 +40,7 @@ external_components:
       url: https://github.com/Forairaaaaa/cores3_esphome
       ref: ver4
     components: [ board_m5cores3 ]
+    refresh: 0s
 
 board_m5cores3:
 
