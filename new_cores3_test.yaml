@@ -1,6 +1,8 @@
 esphome:
   name: m5cores3
   friendly_name: M5CoreS3
+  platformio_options:
+    board_build.f_cpu : 240000000L
   libraries:
     - m5stack/M5GFX@^0.1.11
     - m5stack/M5Unified@^0.1.11
@@ -69,6 +71,21 @@ microphone:
     i2s_din_pin: 6
     pdm: false
 
+
+
+
+
+voice_assistant:
+  microphone: m5cores3_mic
+  use_wake_word: true
+  on_listening:
+    - logger.log: "on listening shit"
+  on_wake_word_detected:
+    - logger.log: "wake up shit"
+  on_client_connected:
+    - voice_assistant.start_continuous:
+  on_client_disconnected:
+    - voice_assistant.stop:
 
 
 
