@@ -43,14 +43,18 @@ psram:
 
 external_components:
   - source:
-      type: git
-      url: https://github.com/Forairaaaaa/cores3_esphome
-      # ref: ver4
-    components: [ board_m5cores3, esp_adf ]
+      type: local
+      path: "./components"
+    components: [ board_m5cores3, m5cores3_audio ]
     refresh: 0s
+  # - source:
+  #     type: git
+  #     url: https://github.com/Forairaaaaa/cores3_esphome
+  #   components: [ board_m5cores3, esp_adf ]
+  #   refresh: 0s
 
 board_m5cores3:
-esp_adf:
+m5cores3_audio:
 
 
 

@@ -74,9 +74,9 @@ async def to_code(config):
     var = cg.new_Pvariable(config[CONF_ID])
     await cg.register_component(var, config)
 
-    cg.add_define("USE_ESP_ADF")
+    # cg.add_define("USE_ESP_ADF")
 
-    cg.add_platformio_option("build_unflags", "-Wl,--end-group")
+    # cg.add_platformio_option("build_unflags", "-Wl,--end-group")
 
     # esp32.add_idf_component(
     #     name="esp-adf",
@@ -93,21 +93,21 @@ async def to_code(config):
     #     ref="v1.2.0",
     # )
 
-    cg.add_platformio_option(
-        "board_build.embed_txtfiles", "components/dueros_service/duer_profile"
-    )
+    # cg.add_platformio_option(
+    #     "board_build.embed_txtfiles", "components/dueros_service/duer_profile"
+    # )
 
-    if board := config.get(CONF_BOARD):
-        cg.add_define("USE_ESP_ADF_BOARD")
+    # if board := config.get(CONF_BOARD):
+    #     cg.add_define("USE_ESP_ADF_BOARD")
 
-        esp32.add_idf_sdkconfig_option(SUPPORTED_BOARDS[board], True)
+    #     esp32.add_idf_sdkconfig_option(SUPPORTED_BOARDS[board], True)
 
-        esp32.add_extra_script(
-            "pre",
-            "apply_adf_patches.py",
-            os.path.join(os.path.dirname(__file__), "apply_adf_patches.py.script"),
-        )
-        esp32.add_extra_build_file(
-            "esp_adf_patches/idf_v4.4_freertos.patch",
-            "https://github.com/espressif/esp-adf/raw/v2.5/idf_patches/idf_v4.4_freertos.patch",
-        )
+    #     esp32.add_extra_script(
+    #         "pre",
+    #         "apply_adf_patches.py",
+    #         os.path.join(os.path.dirname(__file__), "apply_adf_patches.py.script"),
+    #     )
+    #     esp32.add_extra_build_file(
+    #         "esp_adf_patches/idf_v4.4_freertos.patch",
+    #         "https://github.com/espressif/esp-adf/raw/v2.5/idf_patches/idf_v4.4_freertos.patch",
+    #     )

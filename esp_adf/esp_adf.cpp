@@ -20,6 +20,7 @@ void ESPADF::setup() {
   audio_board_handle_t board_handle = audio_board_init();
   audio_hal_ctrl_codec(board_handle->audio_hal, AUDIO_HAL_CODEC_MODE_BOTH, AUDIO_HAL_CTRL_START);
 #endif
+  ESP_LOGI(TAG, "m5cores3 setup");
 }
 
 float ESPADF::get_setup_priority() const { return setup_priority::HARDWARE; }
