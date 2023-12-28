@@ -43,3 +43,73 @@ external_components:
 
 board_m5cores3:
 
+
+
+
+
+
+# 
+# Mic
+# 
+i2s_audio:
+  i2s_lrclk_pin: GPIO33
+  i2s_bclk_pin: GPIO34
+  id: m5cores3_i2s
+
+microphone:
+  - platform: i2s_audio
+    adc_type: external
+    i2s_din_pin: GPIO14
+    pdm: false
+    i2s_audio_id: m5cores3_i2s
+    id: m5cores3_mic
+
+# 
+# Speaker
+# 
+speaker:
+  - platform: i2s_audio
+    dac_type: external
+    i2s_dout_pin: GPIO13
+    mode: mono
+    i2s_audio_id: m5cores3_i2s
+    id: m5cores3_spk
+
+
+
+
+
+voice_assistant:
+  microphone: m5cores3_mic
+  speaker: m5cores3_spk
+  use_wake_word: true
+  noise_suppression_level: 2
+  auto_gain: 31dBFS
+  volume_multiplier: 2.0
+  # vad_threshold: 3
+  on_listening:
+    - logger.log: "on listening shit"
+  on_wake_word_detected:
+    - logger.log: "wake up shit"
+  on_client_connected:
+    - voice_assistant.start_continuous:
+  on_client_disconnected:
+    - voice_assistant.stop:
+
+
+
+
+# switch:
+
+# # Lcd Backlight 
+# - platform: template
+#   name: "M5CoreS3 VA Test"
+#   id: switch_m5cores3_va_test
+#   restore_mode: "RESTORE_DEFAULT_ON"
+#   turn_on_action:
+#     - voice_assistant.start_continuous:
+#   turn_off_action:
+#     - voice_assistant.stop:
+
+
+
