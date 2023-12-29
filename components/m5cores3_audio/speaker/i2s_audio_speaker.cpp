@@ -244,8 +244,11 @@ void I2SAudioSpeaker::player_task(void *params) {
 
 
       // Play buffer 
+      
+      ESP_LOGI(TAG, "spk play");
       M5.Speaker.playRaw((int16_t*)&sample, 2, 16000);
       while (M5.Speaker.isPlaying());
+      // ESP_LOGI(TAG, "spk done");
 
 
       remaining--;
