@@ -82,13 +82,23 @@ speaker:
 
 
 
+# media_player:
+#   - platform: m5cores3_audio
+#     m5cores3_audio_id: m5cores3_audio_1
+#     name: "M5CoreS3 Media Player"
+#     dac_type: external
+#     i2s_dout_pin: 8
+
+
+
+
 
 
 voice_assistant:
   id: va
   microphone: m5cores3_mic
   speaker: m5cores3_spk
-  use_wake_word: true
+  # use_wake_word: true
   on_start:
     lambda: |-
       printf("--------------- on_start shit?\n");
@@ -177,11 +187,23 @@ switch:
 - platform: template
   name: "M5CoreS3 VA Test"
   id: switch_m5cores3_va_test
-  restore_mode: "RESTORE_DEFAULT_ON"
+  restore_mode: "RESTORE_DEFAULT_OFF"
   turn_on_action:
-    - voice_assistant.start_continuous:
+    - voice_assistant.start:
+          silence_detection: false
+    # - voice_assistant.start_continuous:
   turn_off_action:
     - voice_assistant.stop:
+
+
+# - platform: template
+#   name: "M5CoreS3 VA Test"
+#   id: switch_m5cores3_va_test
+#   restore_mode: "RESTORE_DEFAULT_OFF"
+#   turn_on_action:
+#     - media_player.play_media: 'https://download.samplelib.com/mp3/sample-3s.mp3'
+#   turn_off_action:
+#     - media_player.stop:
 
 
 

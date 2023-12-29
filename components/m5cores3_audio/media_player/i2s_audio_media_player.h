@@ -1,8 +1,9 @@
 #pragma once
 
-#ifdef USE_ESP32_FRAMEWORK_ARDUINO
+// #ifdef USE_ESP32_FRAMEWORK_ARDUINO
 
-#include "../i2s_audio.h"
+// #include "../i2s_audio.h"
+#include "../m5cores3_audio.h"
 
 #include <driver/i2s.h>
 
@@ -14,7 +15,7 @@
 #include <Audio.h>
 
 namespace esphome {
-namespace i2s_audio {
+namespace m5cores3_audio {
 
 enum I2SState : uint8_t {
   I2S_STATE_STOPPED = 0,
@@ -83,4 +84,4 @@ class I2SAudioMediaPlayer : public Component, public media_player::MediaPlayer, 
 }  // namespace i2s_audio
 }  // namespace esphome
 
-#endif  // USE_ESP32_FRAMEWORK_ARDUINO
+// #endif  // USE_ESP32_FRAMEWORK_ARDUINO

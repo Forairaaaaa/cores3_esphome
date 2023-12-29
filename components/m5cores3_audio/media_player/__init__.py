@@ -15,7 +15,8 @@ from .. import (
 )
 
 CODEOWNERS = ["@jesserockz"]
-DEPENDENCIES = ["i2s_audio"]
+# DEPENDENCIES = ["i2s_audio"]
+DEPENDENCIES = ["m5cores3_audio"]
 
 I2SAudioMediaPlayer = i2s_audio_ns.class_(
     "I2SAudioMediaPlayer", cg.Component, media_player.MediaPlayer, I2SAudioOut

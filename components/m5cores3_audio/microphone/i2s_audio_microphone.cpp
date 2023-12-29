@@ -97,6 +97,7 @@ void I2SAudioMicrophone::start_() {
   cfg.task_priority = 15;
   M5.Mic.config(cfg);
   M5.Mic.begin();
+  ESP_LOGI(TAG, "start mic");
 
 
   this->state_ = microphone::STATE_RUNNING;
@@ -120,6 +121,7 @@ void I2SAudioMicrophone::stop_() {
 
   // Stop mic 
   M5.Mic.end();
+  ESP_LOGI(TAG, "mic end");
 
 
   this->parent_->unlock();
@@ -175,7 +177,7 @@ size_t I2SAudioMicrophone::read(int16_t *buf, size_t len) {
 
 
   // // Record into buffer 
-  // ESP_LOGI(TAG, "start record %d", BUFFER_SIZE);
+  ESP_LOGI(TAG, "rec %d", BUFFER_SIZE);
 
 
   // M5.Mic.record(buf, len, 16000);

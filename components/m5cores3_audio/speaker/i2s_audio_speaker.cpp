@@ -205,6 +205,7 @@ void I2SAudioSpeaker::player_task(void *params) {
   cfg.task_priority = 15;
   M5.Speaker.config(cfg);
   M5.Speaker.begin();
+  ESP_LOGI(TAG, "spk start play");
 
 
 
@@ -260,6 +261,7 @@ void I2SAudioSpeaker::player_task(void *params) {
 
   // Stop speaker 
   M5.Speaker.end();
+  ESP_LOGI(TAG, "spk play end");
 
 
 
