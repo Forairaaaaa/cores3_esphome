@@ -13,7 +13,8 @@ from .. import (
 )
 
 CODEOWNERS = ["@jesserockz"]
-DEPENDENCIES = ["i2s_audio"]
+# DEPENDENCIES = ["i2s_audio"]
+DEPENDENCIES = ["m5cores3_audio"]
 
 I2SAudioSpeaker = i2s_audio_ns.class_(
     "I2SAudioSpeaker", cg.Component, speaker.Speaker, I2SAudioOut

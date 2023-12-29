@@ -72,20 +72,50 @@ microphone:
     pdm: false
 
 
+speaker:
+  - platform: m5cores3_audio
+    m5cores3_audio_id: m5cores3_audio_1
+    id: m5cores3_spk
+    dac_type: external
+    i2s_dout_pin: 7
+    mode: mono
+
+
 
 
 
 voice_assistant:
+  id: va
   microphone: m5cores3_mic
+  speaker: m5cores3_spk
   use_wake_word: true
-  on_listening:
-    - logger.log: "on listening shit"
+  on_start:
+    lambda: |-
+      printf("--------------- on_start shit?\n");
   on_wake_word_detected:
-    - logger.log: "wake up shit"
+    lambda: |-
+      printf("--------------- on_wake_word_detected shit\n");
+  on_listening:
+    lambda: |-
+      printf("--------------- on_listening shit\n");
+  on_stt_vad_end:
+    lambda: |-
+      printf("--------------- on_stt_vad_end shit\n");
+  on_tts_start:
+    lambda: |-
+      printf("--------------- on_tts_start shit\n");
+  on_end:
+    lambda: |-
+      printf("--------------- on_end shit\n");
+  on_error:
+    lambda: |-
+      printf("--------------- on_error shit\n");
   on_client_connected:
-    - voice_assistant.start_continuous:
+    lambda: |-
+      printf("--------------- on_client_connected shit\n");
   on_client_disconnected:
-    - voice_assistant.stop:
+    lambda: |-
+      printf("--------------- on_client_disconnected shit\n");
 
 
 
@@ -141,17 +171,17 @@ voice_assistant:
 
 
 
-# switch:
+switch:
 
-# # Lcd Backlight 
-# - platform: template
-#   name: "M5CoreS3 VA Test"
-#   id: switch_m5cores3_va_test
-#   restore_mode: "RESTORE_DEFAULT_ON"
-#   turn_on_action:
-#     - voice_assistant.start_continuous:
-#   turn_off_action:
-#     - voice_assistant.stop:
+
+- platform: template
+  name: "M5CoreS3 VA Test"
+  id: switch_m5cores3_va_test
+  restore_mode: "RESTORE_DEFAULT_ON"
+  turn_on_action:
+    - voice_assistant.start_continuous:
+  turn_off_action:
+    - voice_assistant.stop:
 
 
 

@@ -1,8 +1,9 @@
 #pragma once
 
-#ifdef USE_ESP32
+// #ifdef USE_ESP32
 
-#include "../i2s_audio.h"
+// #include "../i2s_audio.h"
+#include "../m5cores3_audio.h"
 
 #include <driver/i2s.h>
 #include <freertos/FreeRTOS.h>
@@ -14,7 +15,7 @@
 #include "esphome/core/helpers.h"
 
 namespace esphome {
-namespace i2s_audio {
+namespace m5cores3_audio {
 
 static const size_t BUFFER_SIZE = 1024;
 
@@ -80,4 +81,4 @@ class I2SAudioSpeaker : public Component, public speaker::Speaker, public I2SAud
 }  // namespace i2s_audio
 }  // namespace esphome
 
-#endif  // USE_ESP32
+// #endif  // USE_ESP32

@@ -1,22 +1,24 @@
 #include "i2s_audio_speaker.h"
 
-#ifdef USE_ESP32
+// #ifdef USE_ESP32
 
-#include <driver/i2s.h>
+// #include <driver/i2s.h>
+#include <M5Unified.h>
 
 #include "esphome/core/application.h"
 #include "esphome/core/hal.h"
 #include "esphome/core/log.h"
 
 namespace esphome {
-namespace i2s_audio {
+namespace m5cores3_audio {
 
 static const size_t BUFFER_COUNT = 20;
 
-static const char *const TAG = "i2s_audio.speaker";
+static const char *const TAG = "m5cores3_audio.speaker";
 
 void I2SAudioSpeaker::setup() {
-  ESP_LOGCONFIG(TAG, "Setting up I2S Audio Speaker...");
+  // ESP_LOGCONFIG(TAG, "Setting up I2S Audio Speaker...");
+  ESP_LOGI(TAG, "setup");
 
   this->buffer_queue_ = xQueueCreate(BUFFER_COUNT, sizeof(DataEvent));
   this->event_queue_ = xQueueCreate(BUFFER_COUNT, sizeof(TaskEvent));
@@ -33,57 +35,178 @@ void I2SAudioSpeaker::start_() {
 }
 
 void I2SAudioSpeaker::player_task(void *params) {
+//   I2SAudioSpeaker *this_speaker = (I2SAudioSpeaker *) params;
+
+//   TaskEvent event;
+//   event.type = TaskEventType::STARTING;
+//   xQueueSend(this_speaker->event_queue_, &event, portMAX_DELAY);
+
+//   i2s_driver_config_t config = {
+//       .mode = (i2s_mode_t) (I2S_MODE_MASTER | I2S_MODE_TX),
+//       .sample_rate = 16000,
+//       .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
+//       .channel_format = I2S_CHANNEL_FMT_RIGHT_LEFT,
+//       .communication_format = I2S_COMM_FORMAT_STAND_I2S,
+//       .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1,
+//       .dma_buf_count = 8,
+//       .dma_buf_len = 128,
+//       .use_apll = false,
+//       .tx_desc_auto_clear = true,
+//       .fixed_mclk = I2S_PIN_NO_CHANGE,
+//       .mclk_multiple = I2S_MCLK_MULTIPLE_DEFAULT,
+//       .bits_per_chan = I2S_BITS_PER_CHAN_DEFAULT,
+//   };
+// #if SOC_I2S_SUPPORTS_DAC
+//   if (this_speaker->internal_dac_mode_ != I2S_DAC_CHANNEL_DISABLE) {
+//     config.mode = (i2s_mode_t) (config.mode | I2S_MODE_DAC_BUILT_IN);
+//   }
+// #endif
+
+//   esp_err_t err = i2s_driver_install(this_speaker->parent_->get_port(), &config, 0, nullptr);
+//   if (err != ESP_OK) {
+//     event.type = TaskEventType::WARNING;
+//     event.err = err;
+//     xQueueSend(this_speaker->event_queue_, &event, 0);
+//     event.type = TaskEventType::STOPPED;
+//     xQueueSend(this_speaker->event_queue_, &event, 0);
+//     while (true) {
+//       delay(10);
+//     }
+//   }
+
+// #if SOC_I2S_SUPPORTS_DAC
+//   if (this_speaker->internal_dac_mode_ == I2S_DAC_CHANNEL_DISABLE) {
+// #endif
+//     i2s_pin_config_t pin_config = this_speaker->parent_->get_pin_config();
+//     pin_config.data_out_num = this_speaker->dout_pin_;
+
+//     i2s_set_pin(this_speaker->parent_->get_port(), &pin_config);
+// #if SOC_I2S_SUPPORTS_DAC
+//   } else {
+//     i2s_set_dac_mode(this_speaker->internal_dac_mode_);
+//   }
+// #endif
+
+//   DataEvent data_event;
+
+//   event.type = TaskEventType::STARTED;
+//   xQueueSend(this_speaker->event_queue_, &event, portMAX_DELAY);
+
+//   int16_t buffer[BUFFER_SIZE / 2];
+
+//   while (true) {
+//     if (xQueueReceive(this_speaker->buffer_queue_, &data_event, 100 / portTICK_PERIOD_MS) != pdTRUE) {
+//       break;  // End of audio from main thread
+//     }
+//     if (data_event.stop) {
+//       // Stop signal from main thread
+//       xQueueReset(this_speaker->buffer_queue_);  // Flush queue
+//       break;
+//     }
+//     size_t bytes_written;
+
+//     memmove(buffer, data_event.data, data_event.len);
+//     size_t remaining = data_event.len / 2;
+//     size_t current = 0;
+
+//     while (remaining > 0) {
+//       uint32_t sample = (buffer[current] << 16) | (buffer[current] & 0xFFFF);
+
+//       esp_err_t err = i2s_write(this_speaker->parent_->get_port(), &sample, sizeof(sample), &bytes_written,
+//                                 (10 / portTICK_PERIOD_MS));
+//       if (err != ESP_OK) {
+//         event = {.type = TaskEventType::WARNING, .err = err};
+//         xQueueSend(this_speaker->event_queue_, &event, portMAX_DELAY);
+//         continue;
+//       }
+//       remaining--;
+//       current++;
+//     }
+
+//     event.type = TaskEventType::PLAYING;
+//     xQueueSend(this_speaker->event_queue_, &event, portMAX_DELAY);
+//   }
+
+//   i2s_zero_dma_buffer(this_speaker->parent_->get_port());
+
+//   event.type = TaskEventType::STOPPING;
+//   xQueueSend(this_speaker->event_queue_, &event, portMAX_DELAY);
+
+//   i2s_driver_uninstall(this_speaker->parent_->get_port());
+
+//   event.type = TaskEventType::STOPPED;
+//   xQueueSend(this_speaker->event_queue_, &event, portMAX_DELAY);
+
+//   while (true) {
+//     delay(10);
+//   }
+
+
+
   I2SAudioSpeaker *this_speaker = (I2SAudioSpeaker *) params;
 
   TaskEvent event;
   event.type = TaskEventType::STARTING;
   xQueueSend(this_speaker->event_queue_, &event, portMAX_DELAY);
 
-  i2s_driver_config_t config = {
-      .mode = (i2s_mode_t) (I2S_MODE_MASTER | I2S_MODE_TX),
-      .sample_rate = 16000,
-      .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
-      .channel_format = I2S_CHANNEL_FMT_RIGHT_LEFT,
-      .communication_format = I2S_COMM_FORMAT_STAND_I2S,
-      .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1,
-      .dma_buf_count = 8,
-      .dma_buf_len = 128,
-      .use_apll = false,
-      .tx_desc_auto_clear = true,
-      .fixed_mclk = I2S_PIN_NO_CHANGE,
-      .mclk_multiple = I2S_MCLK_MULTIPLE_DEFAULT,
-      .bits_per_chan = I2S_BITS_PER_CHAN_DEFAULT,
-  };
-#if SOC_I2S_SUPPORTS_DAC
-  if (this_speaker->internal_dac_mode_ != I2S_DAC_CHANNEL_DISABLE) {
-    config.mode = (i2s_mode_t) (config.mode | I2S_MODE_DAC_BUILT_IN);
-  }
-#endif
+//   i2s_driver_config_t config = {
+//       .mode = (i2s_mode_t) (I2S_MODE_MASTER | I2S_MODE_TX),
+//       .sample_rate = 16000,
+//       .bits_per_sample = I2S_BITS_PER_SAMPLE_16BIT,
+//       .channel_format = I2S_CHANNEL_FMT_RIGHT_LEFT,
+//       .communication_format = I2S_COMM_FORMAT_STAND_I2S,
+//       .intr_alloc_flags = ESP_INTR_FLAG_LEVEL1,
+//       .dma_buf_count = 8,
+//       .dma_buf_len = 128,
+//       .use_apll = false,
+//       .tx_desc_auto_clear = true,
+//       .fixed_mclk = I2S_PIN_NO_CHANGE,
+//       .mclk_multiple = I2S_MCLK_MULTIPLE_DEFAULT,
+//       .bits_per_chan = I2S_BITS_PER_CHAN_DEFAULT,
+//   };
+// #if SOC_I2S_SUPPORTS_DAC
+//   if (this_speaker->internal_dac_mode_ != I2S_DAC_CHANNEL_DISABLE) {
+//     config.mode = (i2s_mode_t) (config.mode | I2S_MODE_DAC_BUILT_IN);
+//   }
+// #endif
 
-  esp_err_t err = i2s_driver_install(this_speaker->parent_->get_port(), &config, 0, nullptr);
-  if (err != ESP_OK) {
-    event.type = TaskEventType::WARNING;
-    event.err = err;
-    xQueueSend(this_speaker->event_queue_, &event, 0);
-    event.type = TaskEventType::STOPPED;
-    xQueueSend(this_speaker->event_queue_, &event, 0);
-    while (true) {
-      delay(10);
-    }
-  }
+  // esp_err_t err = i2s_driver_install(this_speaker->parent_->get_port(), &config, 0, nullptr);
+  // if (err != ESP_OK) {
+  //   event.type = TaskEventType::WARNING;
+  //   event.err = err;
+  //   xQueueSend(this_speaker->event_queue_, &event, 0);
+  //   event.type = TaskEventType::STOPPED;
+  //   xQueueSend(this_speaker->event_queue_, &event, 0);
+  //   while (true) {
+  //     delay(10);
+  //   }
+  // }
 
-#if SOC_I2S_SUPPORTS_DAC
-  if (this_speaker->internal_dac_mode_ == I2S_DAC_CHANNEL_DISABLE) {
-#endif
-    i2s_pin_config_t pin_config = this_speaker->parent_->get_pin_config();
-    pin_config.data_out_num = this_speaker->dout_pin_;
 
-    i2s_set_pin(this_speaker->parent_->get_port(), &pin_config);
-#if SOC_I2S_SUPPORTS_DAC
-  } else {
-    i2s_set_dac_mode(this_speaker->internal_dac_mode_);
-  }
-#endif
+
+// #if SOC_I2S_SUPPORTS_DAC
+//   if (this_speaker->internal_dac_mode_ == I2S_DAC_CHANNEL_DISABLE) {
+// #endif
+//     i2s_pin_config_t pin_config = this_speaker->parent_->get_pin_config();
+//     pin_config.data_out_num = this_speaker->dout_pin_;
+
+//     i2s_set_pin(this_speaker->parent_->get_port(), &pin_config);
+// #if SOC_I2S_SUPPORTS_DAC
+//   } else {
+//     i2s_set_dac_mode(this_speaker->internal_dac_mode_);
+//   }
+// #endif
+
+
+  // Start speaker 
+  auto cfg = M5.Speaker.config();
+  cfg.dma_buf_count = 8;
+  cfg.dma_buf_len = 128;
+  cfg.task_priority = 15;
+  M5.Speaker.config(cfg);
+  M5.Speaker.begin();
+
+
 
   DataEvent data_event;
 
@@ -110,13 +233,20 @@ void I2SAudioSpeaker::player_task(void *params) {
     while (remaining > 0) {
       uint32_t sample = (buffer[current] << 16) | (buffer[current] & 0xFFFF);
 
-      esp_err_t err = i2s_write(this_speaker->parent_->get_port(), &sample, sizeof(sample), &bytes_written,
-                                (10 / portTICK_PERIOD_MS));
-      if (err != ESP_OK) {
-        event = {.type = TaskEventType::WARNING, .err = err};
-        xQueueSend(this_speaker->event_queue_, &event, portMAX_DELAY);
-        continue;
-      }
+      // esp_err_t err = i2s_write(this_speaker->parent_->get_port(), &sample, sizeof(sample), &bytes_written,
+      //                           (10 / portTICK_PERIOD_MS));
+      // if (err != ESP_OK) {
+      //   event = {.type = TaskEventType::WARNING, .err = err};
+      //   xQueueSend(this_speaker->event_queue_, &event, portMAX_DELAY);
+      //   continue;
+      // }
+
+
+      // Play buffer 
+      M5.Speaker.playRaw((int16_t*)&sample, 2, 16000);
+      while (M5.Speaker.isPlaying());
+
+
       remaining--;
       current++;
     }
@@ -125,12 +255,18 @@ void I2SAudioSpeaker::player_task(void *params) {
     xQueueSend(this_speaker->event_queue_, &event, portMAX_DELAY);
   }
 
-  i2s_zero_dma_buffer(this_speaker->parent_->get_port());
+  // i2s_zero_dma_buffer(this_speaker->parent_->get_port());
+
+
+  // Stop speaker 
+  M5.Speaker.end();
+
+
 
   event.type = TaskEventType::STOPPING;
   xQueueSend(this_speaker->event_queue_, &event, portMAX_DELAY);
 
-  i2s_driver_uninstall(this_speaker->parent_->get_port());
+  // i2s_driver_uninstall(this_speaker->parent_->get_port());
 
   event.type = TaskEventType::STOPPED;
   xQueueSend(this_speaker->event_queue_, &event, portMAX_DELAY);
@@ -138,6 +274,8 @@ void I2SAudioSpeaker::player_task(void *params) {
   while (true) {
     delay(10);
   }
+
+
 }
 
 void I2SAudioSpeaker::stop() {
@@ -225,4 +363,4 @@ bool I2SAudioSpeaker::has_buffered_data() const { return uxQueueMessagesWaiting(
 }  // namespace i2s_audio
 }  // namespace esphome
 
-#endif  // USE_ESP32
+// #endif  // USE_ESP32
