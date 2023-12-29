@@ -98,8 +98,8 @@ voice_assistant:
   id: va
   microphone: m5cores3_mic
   # speaker: m5cores3_spk
-  use_wake_word: true
-  noise_suppression_level: 2
+  # use_wake_word: true
+  # noise_suppression_level: 2
   # auto_gain: 31dBFS
   # volume_multiplier: 4.0
   on_start:
@@ -192,9 +192,9 @@ switch:
   id: switch_m5cores3_va_test
   restore_mode: "RESTORE_DEFAULT_OFF"
   turn_on_action:
-    # - voice_assistant.start:
-    #       silence_detection: false
-    - voice_assistant.start_continuous:
+    - voice_assistant.start:
+          # silence_detection: true
+    # - voice_assistant.start_continuous:
   turn_off_action:
     - voice_assistant.stop:
 

@@ -90,13 +90,15 @@ void I2SAudioMicrophone::start_() {
 
 
   // Start mic 
-  auto cfg = M5.Mic.config();
-  cfg.sample_rate = 16000;
-  cfg.dma_buf_count = 8;
-  cfg.dma_buf_len = 512;
-  cfg.task_priority = 15;
-  cfg.stereo = true;
-  M5.Mic.config(cfg);
+  // auto cfg = M5.Mic.config();
+  // cfg.sample_rate = 16000;
+  // cfg.dma_buf_count = 8;
+  // cfg.dma_buf_len = 512;
+  // cfg.task_priority = 15;
+  // cfg.stereo = true;
+  // M5.Mic.config(cfg);
+
+  M5.Speaker.end();
   M5.Mic.begin();
   ESP_LOGI(TAG, "start mic");
 
@@ -191,8 +193,8 @@ size_t I2SAudioMicrophone::read(int16_t *buf, size_t len) {
   this->status_clear_warning();
 
   // return len;
-  return 256;
-  // return 512;
+  // return 256;
+  return 512;
 
 
   // this->status_set_warning();
