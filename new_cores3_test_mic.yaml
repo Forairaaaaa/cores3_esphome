@@ -99,7 +99,7 @@ voice_assistant:
   microphone: m5cores3_mic
   # speaker: m5cores3_spk
   # use_wake_word: true
-  # noise_suppression_level: 2
+  noise_suppression_level: 2
   # auto_gain: 31dBFS
   # volume_multiplier: 4.0
   on_start:
