@@ -1,8 +1,10 @@
-#include "ili9xxx_display.h"
+// #include "ili9xxx_display.h"
+#include "m5cores3_display.h"
 #include "esphome/core/application.h"
 #include "esphome/core/hal.h"
 #include "esphome/core/helpers.h"
 #include "esphome/core/log.h"
+#include <M5Unified.h>
 
 static const char *const TAG = "m5cores3.display";
 

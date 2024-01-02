@@ -52,7 +52,7 @@ external_components:
   - source:
       type: local
       path: "./components"
-    components: [ board_m5cores3, m5cores3_audio ]
+    components: [ board_m5cores3, m5cores3_audio, m5cores3_display ]
     refresh: 0s
   # - source:
   #     type: git
@@ -63,6 +63,13 @@ external_components:
 board_m5cores3:
 m5cores3_audio:
   id: m5cores3_audio_1
+
+
+display:
+  - platform: m5cores3_display
+    # model: ili9342
+    # dc_pin: 27
+    # reset_pin: 33
 
 
 
