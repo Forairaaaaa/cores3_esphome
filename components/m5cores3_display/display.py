@@ -115,8 +115,8 @@ CONFIG_SCHEMA = cv.All(
     display.FULL_DISPLAY_SCHEMA.extend(
         {
             cv.GenerateID(): cv.declare_id(ILI9XXXDisplay),
-            # cv.Required(CONF_MODEL): cv.enum(MODELS, upper=True, space="_"),
-            cv.Optional(CONF_MODEL): cv.enum(MODELS, upper=True, space="_"),
+            cv.Required(CONF_MODEL): cv.enum(MODELS, upper=True, space="_"),
+            # cv.Optional(CONF_MODEL): cv.enum(MODELS, upper=True, space="_"),
             cv.Optional(CONF_DIMENSIONS): cv.Any(
                 cv.dimensions,
                 cv.Schema(
@@ -128,8 +128,8 @@ CONFIG_SCHEMA = cv.All(
                     }
                 ),
             ),
-            # cv.Required(CONF_DC_PIN): pins.gpio_output_pin_schema,
-            cv.Optional(CONF_DC_PIN): pins.gpio_output_pin_schema,
+            cv.Required(CONF_DC_PIN): pins.gpio_output_pin_schema,
+            # cv.Optional(CONF_DC_PIN): pins.gpio_output_pin_schema,
             cv.Optional(CONF_RESET_PIN): pins.gpio_output_pin_schema,
             cv.Optional(CONF_LED_PIN): cv.invalid(
                 "This property is removed. To use the backlight use proper light component."
@@ -162,88 +162,88 @@ CONFIG_SCHEMA = cv.All(
 
 
 async def to_code(config):
-    pass
-    # rhs = MODELS[config[CONF_MODEL]].new()
-    # var = cg.Pvariable(config[CONF_ID], rhs)
+    # pass
+    rhs = MODELS[config[CONF_MODEL]].new()
+    var = cg.Pvariable(config[CONF_ID], rhs)
 
-    # await display.register_display(var, config)
-    # # await spi.register_spi_device(var, config)
-    # # dc = await cg.gpio_pin_expression(config[CONF_DC_PIN])
+    await display.register_display(var, config)
+    # await spi.register_spi_device(var, config)
     # dc = await cg.gpio_pin_expression(config[CONF_DC_PIN])
-    # cg.add(var.set_dc_pin(dc))
-    # if CONF_COLOR_ORDER in config:
-    #     cg.add(var.set_color_order(COLOR_ORDERS[config[CONF_COLOR_ORDER]]))
-    # if CONF_TRANSFORM in config:
-    #     transform = config[CONF_TRANSFORM]
-    #     cg.add(var.set_swap_xy(transform[CONF_SWAP_XY]))
-    #     cg.add(var.set_mirror_x(transform[CONF_MIRROR_X]))
-    #     cg.add(var.set_mirror_y(transform[CONF_MIRROR_Y]))
+    dc = await cg.gpio_pin_expression(config[CONF_DC_PIN])
+    cg.add(var.set_dc_pin(dc))
+    if CONF_COLOR_ORDER in config:
+        cg.add(var.set_color_order(COLOR_ORDERS[config[CONF_COLOR_ORDER]]))
+    if CONF_TRANSFORM in config:
+        transform = config[CONF_TRANSFORM]
+        cg.add(var.set_swap_xy(transform[CONF_SWAP_XY]))
+        cg.add(var.set_mirror_x(transform[CONF_MIRROR_X]))
+        cg.add(var.set_mirror_y(transform[CONF_MIRROR_Y]))
 
-    # if CONF_LAMBDA in config:
-    #     lambda_ = await cg.process_lambda(
-    #         config[CONF_LAMBDA], [(display.DisplayRef, "it")], return_type=cg.void
-    #     )
-    #     cg.add(var.set_writer(lambda_))
+    if CONF_LAMBDA in config:
+        lambda_ = await cg.process_lambda(
+            config[CONF_LAMBDA], [(display.DisplayRef, "it")], return_type=cg.void
+        )
+        cg.add(var.set_writer(lambda_))
 
-    # if CONF_RESET_PIN in config:
-    #     reset = await cg.gpio_pin_expression(config[CONF_RESET_PIN])
-    #     cg.add(var.set_reset_pin(reset))
+    if CONF_RESET_PIN in config:
+        reset = await cg.gpio_pin_expression(config[CONF_RESET_PIN])
+        cg.add(var.set_reset_pin(reset))
 
-    # if CONF_DIMENSIONS in config:
-    #     dimensions = config[CONF_DIMENSIONS]
-    #     if isinstance(dimensions, dict):
-    #         cg.add(var.set_dimensions(dimensions[CONF_WIDTH], dimensions[CONF_HEIGHT]))
-    #         cg.add(
-    #             var.set_offsets(
-    #                 dimensions[CONF_OFFSET_WIDTH], dimensions[CONF_OFFSET_HEIGHT]
-    #             )
-    #         )
-    #     else:
-    #         (width, height) = dimensions
-    #         cg.add(var.set_dimensions(width, height))
+    if CONF_DIMENSIONS in config:
+        dimensions = config[CONF_DIMENSIONS]
+        if isinstance(dimensions, dict):
+            cg.add(var.set_dimensions(dimensions[CONF_WIDTH], dimensions[CONF_HEIGHT]))
+            cg.add(
+                var.set_offsets(
+                    dimensions[CONF_OFFSET_WIDTH], dimensions[CONF_OFFSET_HEIGHT]
+                )
+            )
+        else:
+            (width, height) = dimensions
+            cg.add(var.set_dimensions(width, height))
 
-    # rhs = None
-    # if config[CONF_COLOR_PALETTE] == "GRAYSCALE":
-    #     cg.add(var.set_buffer_color_mode(ILI9XXXColorMode.BITS_8_INDEXED))
-    #     rhs = []
-    #     for x in range(256):
-    #         rhs.extend([HexInt(x), HexInt(x), HexInt(x)])
-    # elif config[CONF_COLOR_PALETTE] == "IMAGE_ADAPTIVE":
-    #     cg.add(var.set_buffer_color_mode(ILI9XXXColorMode.BITS_8_INDEXED))
-    #     from PIL import Image
+    rhs = None
+    if config[CONF_COLOR_PALETTE] == "GRAYSCALE":
+        cg.add(var.set_buffer_color_mode(ILI9XXXColorMode.BITS_8_INDEXED))
+        rhs = []
+        for x in range(256):
+            rhs.extend([HexInt(x), HexInt(x), HexInt(x)])
+    elif config[CONF_COLOR_PALETTE] == "IMAGE_ADAPTIVE":
+        cg.add(var.set_buffer_color_mode(ILI9XXXColorMode.BITS_8_INDEXED))
+        from PIL import Image
 
-    #     def load_image(filename):
-    #         path = CORE.relative_config_path(filename)
-    #         try:
-    #             return Image.open(path)
-    #         except Exception as e:
-    #             raise core.EsphomeError(f"Could not load image file {path}: {e}")
+        def load_image(filename):
+            path = CORE.relative_config_path(filename)
+            try:
+                return Image.open(path)
+            except Exception as e:
+                raise core.EsphomeError(f"Could not load image file {path}: {e}")
 
-    #     # make a wide horizontal combined image.
-    #     images = [load_image(x) for x in config[CONF_COLOR_PALETTE_IMAGES]]
-    #     total_width = sum(i.width for i in images)
-    #     max_height = max(i.height for i in images)
+        # make a wide horizontal combined image.
+        images = [load_image(x) for x in config[CONF_COLOR_PALETTE_IMAGES]]
+        total_width = sum(i.width for i in images)
+        max_height = max(i.height for i in images)
 
-    #     ref_image = Image.new("RGB", (total_width, max_height))
-    #     x = 0
-    #     for i in images:
-    #         ref_image.paste(i, (x, 0))
-    #         x = x + i.width
+        ref_image = Image.new("RGB", (total_width, max_height))
+        x = 0
+        for i in images:
+            ref_image.paste(i, (x, 0))
+            x = x + i.width
 
-    #     # reduce the colors on combined image to 256.
-    #     converted = ref_image.convert("P", palette=Image.Palette.ADAPTIVE, colors=256)
-    #     # if you want to verify how the images look use
-    #     # ref_image.save("ref_in.png")
-    #     # converted.save("ref_out.png")
-    #     palette = converted.getpalette()
-    #     assert len(palette) == 256 * 3
-    #     rhs = palette
-    # else:
-    #     cg.add(var.set_buffer_color_mode(ILI9XXXColorMode.BITS_16))
+        # reduce the colors on combined image to 256.
+        converted = ref_image.convert("P", palette=Image.Palette.ADAPTIVE, colors=256)
+        # if you want to verify how the images look use
+        # ref_image.save("ref_in.png")
+        # converted.save("ref_out.png")
+        palette = converted.getpalette()
+        assert len(palette) == 256 * 3
+        rhs = palette
+    else:
+        cg.add(var.set_buffer_color_mode(ILI9XXXColorMode.BITS_16))
 
-    # if rhs is not None:
-    #     prog_arr = cg.progmem_array(config[CONF_RAW_DATA_ID], rhs)
-    #     cg.add(var.set_palette(prog_arr))
+    if rhs is not None:
+        prog_arr = cg.progmem_array(config[CONF_RAW_DATA_ID], rhs)
+        cg.add(var.set_palette(prog_arr))
 
-    # if CONF_INVERT_COLORS in config:
-    #     cg.add(var.invert_colors(config[CONF_INVERT_COLORS]))
+    if CONF_INVERT_COLORS in config:
+        cg.add(var.invert_colors(config[CONF_INVERT_COLORS]))
