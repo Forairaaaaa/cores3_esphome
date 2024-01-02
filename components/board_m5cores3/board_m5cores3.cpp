@@ -9,7 +9,7 @@ static const char *TAG = "board m5cores3";
 void BoardM5CoreS3::setup() {
     ESP_LOGI(TAG, "setup");
     M5.begin();
-    M5.Display.fillScreen(TFT_BLUE);
+    // M5.Display.fillScreen(TFT_BLUE);
     // M5.Mic.end();
     // M5.Speaker.end();
 }
