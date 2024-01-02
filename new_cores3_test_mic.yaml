@@ -98,7 +98,7 @@ voice_assistant:
   id: va
   microphone: m5cores3_mic
   speaker: m5cores3_spk
-  # use_wake_word: true
+  use_wake_word: true
   noise_suppression_level: 2
   auto_gain: 31dBFS
   volume_multiplier: 2.0
@@ -124,11 +124,15 @@ voice_assistant:
     lambda: |-
       printf("--------------- on_error shit\n");
   on_client_connected:
-    lambda: |-
-      printf("--------------- on_client_connected shit\n");
+    - voice_assistant.start_continuous:
+    - logger.log: "on_client_connected shit"
+    # lambda: |-
+    #   printf("--------------- on_client_connected shit\n");
   on_client_disconnected:
-    lambda: |-
-      printf("--------------- on_client_disconnected shit\n");
+    - voice_assistant.stop:
+    - logger.log: "on_client_disconnected shit"
+    # lambda: |-
+    #   printf("--------------- on_client_disconnected shit\n");
 
 
 
@@ -185,16 +189,14 @@ voice_assistant:
 
 
 switch:
-
-
 - platform: template
   name: "M5CoreS3 VA Test"
   id: switch_m5cores3_va_test
-  restore_mode: "RESTORE_DEFAULT_OFF"
+  restore_mode: "RESTORE_DEFAULT_ON"
   turn_on_action:
-    - voice_assistant.start:
+    # - voice_assistant.start:
           # silence_detection: true
-    # - voice_assistant.start_continuous:
+    - voice_assistant.start_continuous:
   turn_off_action:
     - voice_assistant.stop:
 
