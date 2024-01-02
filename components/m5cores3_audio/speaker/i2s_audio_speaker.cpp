@@ -19,9 +19,10 @@ static const char *const TAG = "m5cores3_audio.speaker";
 void I2SAudioSpeaker::setup() {
   // ESP_LOGCONFIG(TAG, "Setting up I2S Audio Speaker...");
   ESP_LOGI(TAG, "setup");
+  M5.Speaker.begin();
 
-  this->buffer_queue_ = xQueueCreate(BUFFER_COUNT, sizeof(DataEvent));
-  this->event_queue_ = xQueueCreate(BUFFER_COUNT, sizeof(TaskEvent));
+  // this->buffer_queue_ = xQueueCreate(BUFFER_COUNT, sizeof(DataEvent));
+  // this->event_queue_ = xQueueCreate(BUFFER_COUNT, sizeof(TaskEvent));
 }
 
 void I2SAudioSpeaker::start() { this->state_ = speaker::STATE_STARTING; }
@@ -297,9 +298,9 @@ void I2SAudioSpeaker::stop() {
     return;
   }
   this->state_ = speaker::STATE_STOPPING;
-  DataEvent data;
-  data.stop = true;
-  xQueueSendToFront(this->buffer_queue_, &data, portMAX_DELAY);
+  // DataEvent data;
+  // data.stop = true;
+  // xQueueSendToFront(this->buffer_queue_, &data, portMAX_DELAY);
 }
 
 void I2SAudioSpeaker::watch_() {
@@ -347,7 +348,7 @@ void I2SAudioSpeaker::watch_() {
     // this->player_task_handle_ = nullptr;
     this->parent_->unlock();
     // xQueueReset(this->buffer_queue_);
-    ESP_LOGD(TAG, "Stopped I2S Audio Speaker");
+    // ESP_LOGD(TAG, "Stopped I2S Audio Speaker");
   }
 
 }
@@ -393,15 +394,15 @@ size_t I2SAudioSpeaker::play(const uint8_t *data, size_t length) {
 
 
     // Start speaker 
-    auto cfg = M5.Speaker.config();
-    cfg.dma_buf_count = 8;
-    cfg.dma_buf_len = 128;
-    cfg.task_priority = 15;
-    cfg.sample_rate = 16000;
-    M5.Speaker.config(cfg);
-    M5.Mic.end();
-    M5.Speaker.begin();
-    ESP_LOGI(TAG, "spk start play");
+    // auto cfg = M5.Speaker.config();
+    // cfg.dma_buf_count = 8;
+    // cfg.dma_buf_len = 128;
+    // cfg.task_priority = 15;
+    // cfg.sample_rate = 16000;
+    // M5.Speaker.config(cfg);
+    // M5.Mic.end();
+    // M5.Speaker.begin();
+    // ESP_LOGI(TAG, "spk start");
 
   }
   // size_t remaining = length;
@@ -428,7 +429,13 @@ size_t I2SAudioSpeaker::play(const uint8_t *data, size_t length) {
   return length;
 }
 
-bool I2SAudioSpeaker::has_buffered_data() const { return uxQueueMessagesWaiting(this->buffer_queue_) > 0; }
+bool I2SAudioSpeaker::has_buffered_data() const 
+{ 
+  // return uxQueueMessagesWaiting(this->buffer_queue_) > 0;
+  // return false;
+  
+  return M5.Speaker.isPlaying();
+}
 
 }  // namespace i2s_audio
 }  // namespace esphome

@@ -124,6 +124,7 @@ void I2SAudioMicrophone::stop_() {
 
   // Stop mic 
   M5.Mic.end();
+  M5.Speaker.begin();
   ESP_LOGI(TAG, "mic end");
 
 
