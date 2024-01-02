@@ -334,12 +334,21 @@ void I2SAudioSpeaker::watch_() {
   // }
 
 
-  this->state_ = speaker::STATE_STOPPED;
-  // vTaskDelete(this->player_task_handle_);
-  // this->player_task_handle_ = nullptr;
-  this->parent_->unlock();
-  // xQueueReset(this->buffer_queue_);
-  ESP_LOGD(TAG, "Stopped I2S Audio Speaker");
+  
+
+  if (M5.Speaker.isPlaying())
+  {
+    this->status_clear_warning();
+  }
+  else 
+  {
+    this->state_ = speaker::STATE_STOPPED;
+    // vTaskDelete(this->player_task_handle_);
+    // this->player_task_handle_ = nullptr;
+    this->parent_->unlock();
+    // xQueueReset(this->buffer_queue_);
+    ESP_LOGD(TAG, "Stopped I2S Audio Speaker");
+  }
 
 }
 
@@ -388,6 +397,7 @@ size_t I2SAudioSpeaker::play(const uint8_t *data, size_t length) {
     cfg.dma_buf_count = 8;
     cfg.dma_buf_len = 128;
     cfg.task_priority = 15;
+    cfg.sample_rate = 16000;
     M5.Speaker.config(cfg);
     M5.Mic.end();
     M5.Speaker.begin();
@@ -409,6 +419,10 @@ size_t I2SAudioSpeaker::play(const uint8_t *data, size_t length) {
   //   index += to_send_length;
   // }
   // return index;
+
+
+
+  M5.Speaker.playRaw((int16_t*)data, length / 2, 16000);
 
 
   return length;
