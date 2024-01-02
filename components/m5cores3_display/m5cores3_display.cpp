@@ -7,6 +7,13 @@
 namespace esphome {
 namespace m5cores3_display {
 
+float M5CoreS3Display::get_setup_priority() const { return setup_priority::HARDWARE; }
+
+void ILI9XXXDisplay::update() {
+}
+
+
+
 
 
 
