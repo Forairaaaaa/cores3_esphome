@@ -67,10 +67,7 @@ m5cores3_audio:
 
 display:
   - platform: m5cores3_display
-    # model: ili9342
-    # dc_pin: 27
-    # reset_pin: 33
-
+    id: m5cores3_lcd
 
 
 switch:
