@@ -1,0 +1,37 @@
+esphome:
+  name: m5cores3
+  friendly_name: M5CoreS3
+
+packages:
+  m5stack.cores3-voice-assistant: github://Forairaaaaa/cores3_esphome/m5stack-cores3.yaml@main
+  # m5stack.atom-echo-voice-assistant: github://esphome/firmware/voice-assistant/m5stack-atom-echo.yaml@main
+
+esp32:
+  board: esp32-s3-devkitc-1
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "TDIsGOLfYDNgo3DIhLspajS/VFuDlzwJ1n7N1CnJ5eI="
+
+ota:
+  password: "148ed3bd22185832c75c272f52167c27"
+
+wifi:
+  ssid: "GL-AXT1800-06a"
+  password: "m5stack001"
+  # ssid: !secret wifi_ssid
+  # password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "M5Cores3 Fallback Hotspot"
+    password: "Vfp1Cj2o6uFW"
+
+captive_portal:
+    
