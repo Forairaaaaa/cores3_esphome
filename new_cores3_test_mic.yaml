@@ -97,7 +97,7 @@ speaker:
 voice_assistant:
   id: va
   microphone: m5cores3_mic
-  # speaker: m5cores3_spk
+  speaker: m5cores3_spk
   # use_wake_word: true
   noise_suppression_level: 2
   auto_gain: 31dBFS
