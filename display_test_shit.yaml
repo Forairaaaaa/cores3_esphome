@@ -209,7 +209,7 @@ switch:
     - lambda: |
         printf("on ??\n");
         id(m5cores3_lcd).fill(id(replying_color));
-        // id(m5cores3_lcd).image((id(m5cores3_lcd).get_width() / 2), (id(m5cores3_lcd).get_height() / 2), id(casita_replying), ImageAlign::CENTER);
+        id(m5cores3_lcd).image((id(m5cores3_lcd).get_width() / 2), (id(m5cores3_lcd).get_height() / 2), id(casita_replying), ImageAlign::CENTER);
         // id(m5cores3_lcd).show_page(listening_page);
         // id(m5cores3_lcd).update();
   turn_off_action:
@@ -217,7 +217,7 @@ switch:
     - lambda: |
         printf("off ??\n");
         id(m5cores3_lcd).fill(id(idle_color));
-        // id(m5cores3_lcd).image((id(m5cores3_lcd).get_width() / 2), (id(m5cores3_lcd).get_height() / 2), id(casita_idle), ImageAlign::CENTER);
+        id(m5cores3_lcd).image((id(m5cores3_lcd).get_width() / 2), (id(m5cores3_lcd).get_height() / 2), id(casita_idle), ImageAlign::CENTER);
         // id(m5cores3_lcd).show_page(error_page);
         // id(m5cores3_lcd).update();
 
