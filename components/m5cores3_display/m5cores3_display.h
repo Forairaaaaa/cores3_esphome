@@ -18,7 +18,5 @@ class M5CoreS3Display : public display::Display {
   void update() override;
 };
 
-class ILI9XXXILI9342 : public M5CoreS3Display {};
-
 }  // namespace m5cores3_display
 }  // namespace esphome

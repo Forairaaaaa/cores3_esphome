@@ -163,6 +163,7 @@ display:
   - platform: m5cores3_display
     model: ili9342
     dc_pin: 35
+    update_interval: never
     id: m5cores3_lcd
     pages:
       - id: idle_page
@@ -171,8 +172,9 @@ display:
           it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_idle), ImageAlign::CENTER);
       - id: listening_page
         lambda: |-
+          printf("????aaaaa\n");
           it.fill(id(listening_color));
-          // it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_listening), ImageAlign::CENTER);
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_listening), ImageAlign::CENTER);
       - id: thinking_page
         lambda: |-
           it.fill(id(thinking_color));
@@ -183,8 +185,9 @@ display:
           it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_replying), ImageAlign::CENTER);
       - id: error_page
         lambda: |-
+          printf("????bbbbb\n");
           it.fill(id(error_color));
-          // it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_error), ImageAlign::CENTER);
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_error), ImageAlign::CENTER);
       - id: no_ha_page
         lambda: |-
           it.image((it.get_width() / 2), (it.get_height() / 2), id(error_no_ha), ImageAlign::CENTER);
@@ -205,6 +208,7 @@ switch:
   id: switch_m5cores3_display_test
   restore_mode: "RESTORE_DEFAULT_OFF"
   turn_on_action:
+    # - display.page.show: thinking_page
     # - logger.log: "show on shit"
     - lambda: |
         printf("on ??\n");
@@ -213,6 +217,7 @@ switch:
         id(m5cores3_lcd).show_page(listening_page);
         id(m5cores3_lcd).update();
   turn_off_action:
+    # - display.page.show: idle_page
     # - logger.log: "show off shit"
     - lambda: |
         printf("off ??\n");

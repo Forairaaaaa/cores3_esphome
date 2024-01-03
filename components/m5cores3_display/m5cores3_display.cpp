@@ -66,6 +66,7 @@ void M5CoreS3Display::fill(Color color) {
 
 
 void M5CoreS3Display::update() {
+  this->do_update_();
   if (_is_updated) {
     _is_updated = false;
     ESP_LOGI(TAG, "push canvas");
