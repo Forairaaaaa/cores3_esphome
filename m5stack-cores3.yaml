@@ -63,13 +63,11 @@ psram:
   mode: octal
   speed: 80MHz
 
-
-
 external_components:
   - source:
       type: git
       url: https://github.com/Forairaaaaa/cores3_esphome
-    components: [ board_m5cores3, m5cores3_audio ]
+    components: [ board_m5cores3, m5cores3_audio, m5cores3_display ]
     refresh: 0s
 
 
@@ -109,7 +107,6 @@ globals:
     restore_value: no
     initial_value: ${voice_assist_not_ready_phase_id}
     
-
 
 # 
 # Display
@@ -235,19 +232,12 @@ color:
   - id: error_color
     hex: ${error_illustration_background_color}
 
-spi:
-  clk_pin: 36
-  mosi_pin: 37
-
 display:
-  - platform: ili9xxx
+  - platform: m5cores3_display
     model: ILI9342
     dc_pin: 35
-    cs_pin: 3
-    id: m5cores3_lcd
-    data_rate: 40MHz
     update_interval: never
-    invert_colors: false
+    id: m5cores3_lcd
     pages:
       - id: idle_page
         lambda: |-
@@ -282,12 +272,11 @@ display:
       - id: muted_page
         lambda: |-
           it.fill(Color::BLACK);
-    # lambda: |-
-    #   id(m5cores3_lcd).show_page(listening_page);
-    #   id(m5cores3_lcd).update();
-    
 
 
+# 
+# Audio
+# 
 board_m5cores3:
 m5cores3_audio:
   id: m5cores3_audio_1
@@ -309,7 +298,9 @@ speaker:
     mode: mono
     
 
-
+# 
+# VA
+# 
 voice_assistant:
   id: va
   microphone: m5cores3_mic
@@ -363,8 +354,6 @@ voice_assistant:
     - script.execute: draw_display
 
 
-
-
 switch:
 - platform: template
   name: "LCD Backlight"
@@ -405,6 +394,4 @@ switch:
           - lambda: id(va).set_use_wake_word(false);
           - lambda: id(voice_assistant_phase) = ${voice_assist_muted_phase_id};
           - script.execute: draw_display
-
-
 
