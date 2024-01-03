@@ -20,6 +20,7 @@ void I2SAudioSpeaker::setup() {
   // ESP_LOGCONFIG(TAG, "Setting up I2S Audio Speaker...");
   ESP_LOGI(TAG, "setup");
   M5.Speaker.begin();
+  M5.Speaker.setVolume(200);
 
   // this->buffer_queue_ = xQueueCreate(BUFFER_COUNT, sizeof(DataEvent));
   // this->event_queue_ = xQueueCreate(BUFFER_COUNT, sizeof(TaskEvent));
