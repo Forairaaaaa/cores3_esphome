@@ -4,7 +4,6 @@ esphome:
 
 packages:
   m5stack.cores3-voice-assistant: github://Forairaaaaa/cores3_esphome/m5stack-cores3.yaml@main
-  # m5stack.atom-echo-voice-assistant: github://esphome/firmware/voice-assistant/m5stack-atom-echo.yaml@main
 
 esp32:
   board: esp32-s3-devkitc-1
