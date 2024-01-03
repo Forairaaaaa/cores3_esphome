@@ -6,44 +6,74 @@
 #include "esphome/core/log.h"
 #include <M5Unified.h>
 
+
 static const char *const TAG = "m5cores3.display";
+static LGFX_Sprite* _canvas  = nullptr;
+static bool _is_updated = false;
+
 
 namespace esphome {
 namespace m5cores3_display {
 
-float M5CoreS3Display::get_setup_priority() const { return setup_priority::HARDWARE; }
 
-void M5CoreS3Display::update() {
+
+LGFX_Sprite* getCanvas() {
+  if (_canvas == nullptr) {
+    _canvas = new LGFX_Sprite(&M5.Display);
+    _canvas->setPsram(true);
+    _canvas->createSprite(M5.Display.width(), M5.Display.height());
+  }
+  return _canvas;
 }
 
-void M5CoreS3Display::fill(Color color) {
-  lgfx::rgb565_t fill_color;
-  fill_color.r5 = color.r;
-  fill_color.g6 = color.g;
-  fill_color.b5 = color.b;
-  M5.Display.fillScreen(fill_color);
-}
-
-void M5CoreS3Display::dump_config() {
-}
 
 void M5CoreS3Display::setup() {
   ESP_LOGI(TAG, "setup");
-  M5.Display.fillScreen(TFT_BLUE);
+  // M5.Display.fillScreen(TFT_BLUE);
+
+  // _canvas = new LGFX_Sprite(&M5.Display);
+  // _canvas->setPsram(true);
+  // _canvas->createSprite(M5.Display.width(), M5.Display.height());
 }
 
 
-void HOT M5CoreS3Display::draw_absolute_pixel_internal(int x, int y, Color color) {
-  lgfx::rgb565_t fill_color;
-  fill_color.r5 = color.r;
-  fill_color.g6 = color.g;
-  fill_color.b5 = color.b;
-  M5.Display.drawPixel(x, y, fill_color);
+float M5CoreS3Display::get_setup_priority() const { return setup_priority::HARDWARE; }
+void M5CoreS3Display::dump_config() {}
+int M5CoreS3Display::get_width() { return M5.Display.width(); }
+int M5CoreS3Display::get_height() { return M5.Display.height(); }
+
+
+void M5CoreS3Display::draw_pixel_at(int x, int y, Color color) {
+  ESP_LOGI(TAG, "dp %d %d %d", x, y, color.raw_32);
+  lgfx::rgb888_t fill_color;
+  fill_color.r = color.r;
+  fill_color.g = color.g;
+  fill_color.b = color.b;
+  // M5.Display.drawPixel(x, y, fill_color);
+  getCanvas()->drawPixel(x, y, fill_color);
+  _is_updated = true;
 }
 
-int M5CoreS3Display::get_width_internal() { return M5.Display.width(); }
 
-int M5CoreS3Display::get_height_internal() { return M5.Display.height(); }
+void M5CoreS3Display::fill(Color color) {
+  ESP_LOGI(TAG, "fill %d", color.raw_32);
+  lgfx::rgb888_t fill_color;
+  fill_color.r = color.r;
+  fill_color.g = color.g;
+  fill_color.b = color.b;
+  // M5.Display.fillScreen(fill_color);
+  getCanvas()->fillScreen(fill_color);
+  _is_updated = true;
+}
+
+
+void M5CoreS3Display::update() {
+  if (_is_updated) {
+    _is_updated = false;
+    ESP_LOGI(TAG, "update");
+    getCanvas()->pushSprite(0, 0);
+  }
+}
 
 
 }

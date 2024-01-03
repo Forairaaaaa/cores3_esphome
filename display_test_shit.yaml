@@ -1,8 +1,102 @@
+substitutions:
+  # loading_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/loading_320_240.png
+  # idle_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/idle_320_240.png
+  # listening_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/listening_320_240.png
+  # thinking_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/thinking_320_240.png
+  # replying_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/replying_320_240.png
+  # error_illustration_file: https://github.com/esphome/firmware/raw/main/voice-assistant/casita/error_320_240.png
+  loading_illustration_file: https://gitee.com/forairaaaaa/firmware/raw/main/voice-assistant/casita/loading_320_240.png
+  idle_illustration_file: https://gitee.com/forairaaaaa/firmware/raw/main/voice-assistant/casita/idle_320_240.png
+  listening_illustration_file: https://gitee.com/forairaaaaa/firmware/raw/main/voice-assistant/casita/listening_320_240.png
+  thinking_illustration_file: https://gitee.com/forairaaaaa/firmware/raw/main/voice-assistant/casita/thinking_320_240.png
+  replying_illustration_file: https://gitee.com/forairaaaaa/firmware/raw/main/voice-assistant/casita/replying_320_240.png
+  error_illustration_file: https://gitee.com/forairaaaaa/firmware/raw/main/voice-assistant/casita/error_320_240.png
+
+  loading_illustration_background_color: '000000'
+  idle_illustration_background_color: '000000'
+  listening_illustration_background_color: 'FFFFFF'
+  thinking_illustration_background_color: 'FFFFFF'
+  replying_illustration_background_color: 'FFFFFF'
+  error_illustration_background_color: '000000'
+
+
+
+image:
+  - file: ${error_illustration_file}
+    id: casita_error
+    resize: 320x240
+    type: RGB24
+    use_transparency: true
+  - file: ${idle_illustration_file}
+    id: casita_idle
+    resize: 320x240
+    type: RGB24
+    use_transparency: true
+  - file: ${listening_illustration_file}
+    id: casita_listening
+    resize: 320x240
+    type: RGB24
+    use_transparency: true
+  - file: ${thinking_illustration_file}
+    id: casita_thinking
+    resize: 320x240
+    type: RGB24
+    use_transparency: true
+  - file: ${replying_illustration_file}
+    id: casita_replying
+    resize: 320x240
+    type: RGB24
+    use_transparency: true
+  - file: ${loading_illustration_file}
+    id: casita_initializing
+    resize: 320x240
+    type: RGB24
+    use_transparency: true
+  # - file: https://github.com/esphome/firmware/raw/main/voice-assistant/error_box_illustrations/error-no-wifi.png
+  #   id: error_no_wifi
+  #   resize: 320x240
+  #   type: RGB24
+  #   use_transparency: true
+  # - file: https://github.com/esphome/firmware/raw/main/voice-assistant/error_box_illustrations/error-no-ha.png
+  #   id: error_no_ha
+  #   resize: 320x240
+  #   type: RGB24
+  #   use_transparency: true
+  - file: https://gitee.com/forairaaaaa/firmware/raw/main/voice-assistant/error_box_illustrations/error-no-wifi.png
+    id: error_no_wifi
+    resize: 320x240
+    type: RGB24
+    use_transparency: true
+  - file: https://gitee.com/forairaaaaa/firmware/raw/main/voice-assistant/error_box_illustrations/error-no-ha.png
+    id: error_no_ha
+    resize: 320x240
+    type: RGB24
+    use_transparency: true
+
+color:
+  - id: idle_color
+    hex: ${idle_illustration_background_color}
+  - id: listening_color
+    hex: ${listening_illustration_background_color}
+  - id: thinking_color
+    hex: ${thinking_illustration_background_color}
+  - id: replying_color
+    hex: ${replying_illustration_background_color}
+  - id: loading_color
+    hex: ${loading_illustration_background_color}
+  - id: error_color
+    hex: ${error_illustration_background_color}
+
+
+
 esphome:
   name: m5cores3
   friendly_name: M5CoreS3
   platformio_options:
     board_build.f_cpu : 240000000L
+    build_flags:
+      - -DBOARD_HAS_PSRAM
+      - -mfix-esp32-psram-cache-issue
   libraries:
     - m5stack/M5GFX@^0.1.11
     - m5stack/M5Unified@^0.1.11
@@ -70,7 +164,40 @@ display:
     model: ili9342
     dc_pin: 35
     id: m5cores3_lcd
-
+    pages:
+      - id: idle_page
+        lambda: |-
+          it.fill(id(idle_color));
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_idle), ImageAlign::CENTER);
+      - id: listening_page
+        lambda: |-
+          it.fill(id(listening_color));
+          // it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_listening), ImageAlign::CENTER);
+      - id: thinking_page
+        lambda: |-
+          it.fill(id(thinking_color));
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_thinking), ImageAlign::CENTER);
+      - id: replying_page
+        lambda: |-
+          it.fill(id(replying_color));
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_replying), ImageAlign::CENTER);
+      - id: error_page
+        lambda: |-
+          it.fill(id(error_color));
+          // it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_error), ImageAlign::CENTER);
+      - id: no_ha_page
+        lambda: |-
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(error_no_ha), ImageAlign::CENTER);
+      - id: no_wifi_page
+        lambda: |-
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(error_no_wifi), ImageAlign::CENTER);
+      - id: initializing_page
+        lambda: |-
+          it.fill(id(loading_color));
+          it.image((it.get_width() / 2), (it.get_height() / 2), id(casita_initializing), ImageAlign::CENTER);
+      - id: muted_page
+        lambda: |-
+          it.fill(Color::BLACK);
 
 switch:
 - platform: template
@@ -78,7 +205,19 @@ switch:
   id: switch_m5cores3_display_test
   restore_mode: "RESTORE_DEFAULT_OFF"
   turn_on_action:
-    - logger.log: "show on shit"
+    # - logger.log: "show on shit"
+    - lambda: |
+        printf("on ??\n");
+        id(m5cores3_lcd).fill(id(replying_color));
+        // id(m5cores3_lcd).image((id(m5cores3_lcd).get_width() / 2), (id(m5cores3_lcd).get_height() / 2), id(casita_replying), ImageAlign::CENTER);
+        // id(m5cores3_lcd).show_page(listening_page);
+        // id(m5cores3_lcd).update();
   turn_off_action:
-    - logger.log: "show off shit"
+    # - logger.log: "show off shit"
+    - lambda: |
+        printf("off ??\n");
+        id(m5cores3_lcd).fill(id(idle_color));
+        // id(m5cores3_lcd).image((id(m5cores3_lcd).get_width() / 2), (id(m5cores3_lcd).get_height() / 2), id(casita_idle), ImageAlign::CENTER);
+        // id(m5cores3_lcd).show_page(error_page);
+        // id(m5cores3_lcd).update();
 
