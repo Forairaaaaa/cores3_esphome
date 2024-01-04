@@ -1,0 +1,212 @@
+esphome:
+  name: m5cores3
+  friendly_name: M5CoreS3
+  platformio_options:
+    board_build.f_cpu : 240000000L
+  libraries:
+    - m5stack/M5GFX@^0.1.11
+    - m5stack/M5Unified@^0.1.11
+
+esp32:
+  board: esp32-s3-devkitc-1
+  flash_size: 16MB
+  framework:
+    type: arduino
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "TDIsGOLfYDNgo3DIhLspajS/VFuDlzwJ1n7N1CnJ5eI="
+
+ota:
+  password: "148ed3bd22185832c75c272f52167c27"
+
+wifi:
+  ssid: "GL-AXT1800-06a"
+  password: "m5stack001"
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "M5Cores3 Fallback Hotspot"
+    password: "Vfp1Cj2o6uFW"
+
+captive_portal:
+    
+
+
+
+
+psram:
+  mode: octal
+  speed: 80MHz
+
+external_components:
+  - source:
+      type: local
+      path: "./components"
+    components: [ board_m5cores3, m5cores3_audio ]
+    refresh: 0s
+  # - source:
+  #     type: git
+  #     url: https://github.com/Forairaaaaa/cores3_esphome
+  #   components: [ board_m5cores3, esp_adf ]
+  #   refresh: 0s
+
+board_m5cores3:
+m5cores3_audio:
+  id: m5cores3_audio_1
+
+
+
+
+
+microphone:
+  - platform: m5cores3_audio
+    m5cores3_audio_id: m5cores3_audio_1
+    id: m5cores3_mic
+    adc_type: external
+    i2s_din_pin: 14
+    pdm: false
+
+
+speaker:
+  - platform: m5cores3_audio
+    m5cores3_audio_id: m5cores3_audio_1
+    id: m5cores3_spk
+    dac_type: external
+    i2s_dout_pin: 13
+    mode: mono
+
+
+
+# media_player:
+#   - platform: m5cores3_audio
+#     m5cores3_audio_id: m5cores3_audio_1
+#     name: "M5CoreS3 Media Player"
+#     dac_type: external
+#     i2s_dout_pin: 8
+
+
+
+
+
+
+voice_assistant:
+  id: va
+  microphone: m5cores3_mic
+  speaker: m5cores3_spk
+  # use_wake_word: true
+  noise_suppression_level: 2
+  auto_gain: 31dBFS
+  volume_multiplier: 2.0
+  on_start:
+    lambda: |-
+      printf("--------------- on_start shit?\n");
+  on_wake_word_detected:
+    lambda: |-
+      printf("--------------- on_wake_word_detected shit\n");
+  on_listening:
+    lambda: |-
+      printf("--------------- on_listening shit\n");
+  on_stt_vad_end:
+    lambda: |-
+      printf("--------------- on_stt_vad_end shit\n");
+  on_tts_start:
+    lambda: |-
+      printf("--------------- on_tts_start shit\n");
+  on_end:
+    lambda: |-
+      printf("--------------- on_end shit\n");
+  on_error:
+    lambda: |-
+      printf("--------------- on_error shit\n");
+  on_client_connected:
+    lambda: |-
+      printf("--------------- on_client_connected shit\n");
+  on_client_disconnected:
+    lambda: |-
+      printf("--------------- on_client_disconnected shit\n");
+
+
+
+
+# # 
+# # Mic
+# # 
+# i2s_audio:
+#   i2s_lrclk_pin: GPIO33
+#   i2s_bclk_pin: GPIO34
+#   id: m5cores3_i2s
+
+# microphone:
+#   - platform: i2s_audio
+#     adc_type: external
+#     i2s_din_pin: GPIO14
+#     pdm: false
+#     i2s_audio_id: m5cores3_i2s
+#     id: m5cores3_mic
+
+# # 
+# # Speaker
+# # 
+# speaker:
+#   - platform: i2s_audio
+#     dac_type: external
+#     i2s_dout_pin: GPIO13
+#     mode: mono
+#     i2s_audio_id: m5cores3_i2s
+#     id: m5cores3_spk
+
+
+
+
+
+# voice_assistant:
+#   microphone: m5cores3_mic
+#   speaker: m5cores3_spk
+#   use_wake_word: true
+#   noise_suppression_level: 2
+#   auto_gain: 31dBFS
+#   volume_multiplier: 2.0
+#   # vad_threshold: 3
+#   on_listening:
+#     - logger.log: "on listening shit"
+#   on_wake_word_detected:
+#     - logger.log: "wake up shit"
+#   on_client_connected:
+#     - voice_assistant.start_continuous:
+#   on_client_disconnected:
+#     - voice_assistant.stop:
+
+
+
+
+switch:
+
+
+- platform: template
+  name: "M5CoreS3 VA Test"
+  id: switch_m5cores3_va_test
+  restore_mode: "RESTORE_DEFAULT_OFF"
+  turn_on_action:
+    - voice_assistant.start:
+    #       silence_detection: false
+    # - voice_assistant.start_continuous:
+  turn_off_action:
+    - voice_assistant.stop:
+
+
+# - platform: template
+#   name: "M5CoreS3 VA Test"
+#   id: switch_m5cores3_va_test
+#   restore_mode: "RESTORE_DEFAULT_OFF"
+#   turn_on_action:
+#     - media_player.play_media: 'https://download.samplelib.com/mp3/sample-3s.mp3'
+#   turn_off_action:
+#     - media_player.stop:
+
+
+
