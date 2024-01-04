@@ -3,7 +3,7 @@ esphome:
   friendly_name: M5CoreS3
 
 packages:
-  m5stack.cores3-voice-assistant: github://Forairaaaaa/cores3_esphome/m5stack-cores3.yaml@main
+  m5stack.cores3-voice-assistant: github://m5stack/M5CoreS3-Esphome/voice-assistant/m5stack-cores3.yaml@main
 
 esp32:
   board: esp32-s3-devkitc-1
