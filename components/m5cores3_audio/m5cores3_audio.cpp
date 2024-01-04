@@ -8,7 +8,7 @@
 namespace esphome {
 namespace m5cores3_audio {
 
-static const char *const TAG = "m5cores3_audio";
+static const char *const TAG = "m5cores3.audio";
 
 void M5CoreS3AudioComponent::setup() {
   // static i2s_port_t next_port_num = I2S_NUM_0;

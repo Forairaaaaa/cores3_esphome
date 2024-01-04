@@ -14,7 +14,7 @@ namespace m5cores3_audio {
 
 static const size_t BUFFER_COUNT = 20;
 
-static const char *const TAG = "m5cores3_audio.speaker";
+static const char *const TAG = "m5cores3.speaker";
 
 void I2SAudioSpeaker::setup() {
   // ESP_LOGCONFIG(TAG, "Setting up I2S Audio Speaker...");

@@ -13,7 +13,7 @@ namespace m5cores3_audio {
 
 static const size_t BUFFER_SIZE = 512;
 
-static const char *const TAG = "m5cores3_audio.microphone";
+static const char *const TAG = "m5cores3.microphone";
 
 void I2SAudioMicrophone::setup() {
 //   ESP_LOGCONFIG(TAG, "Setting up I2S Audio Microphone...");
@@ -184,7 +184,7 @@ size_t I2SAudioMicrophone::read(int16_t *buf, size_t len) {
   // ESP_LOGI(TAG, "rec %d", BUFFER_SIZE);
 
 
-  // M5.Mic.record(buf, len, 16000);
+  // M5.Mic.record(buf, len >> 1, 16000);
   M5.Mic.record(buf, 256, 16000);
   // M5.Mic.record(buf, 512, 16000);
   while (M5.Mic.isRecording());
